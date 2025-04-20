@@ -1,0 +1,16 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AdminUsersFormComponent } from "../components/form/admin-users-form.component";
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'admin-users-create-page',
+  imports: [AdminUsersFormComponent,RouterLink],
+  templateUrl: './admin-users-create-page.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AdminUsersCreatePageComponent {
+
+}
+
+export default AdminUsersCreatePageComponent;
