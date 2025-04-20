@@ -173,7 +173,7 @@ http://localhost:4200/
 ## 📽️ Video Tutorial
 
 Para más detalles y demostraciones prácticas, te dejo todo lo demás en el video del repositorio.
-
+Youtube: [Video](https://youtu.be/m2FH4zoFQUY)  
 ---
 
 ## 🤝 Contribuciones
