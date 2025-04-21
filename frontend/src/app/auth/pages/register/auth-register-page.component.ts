@@ -1,15 +1,26 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { iRegisterRequest } from '@auth/interfaces';
 import { AuthService } from '@auth/services/auth.service';
 import { toast } from 'ngx-sonner';
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'auth-register-page',
-  imports: [ReactiveFormsModule  , RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './auth-register-page.component.html',
   styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthRegisterPageComponent {
   private _router: Router = inject(Router);
@@ -20,11 +31,22 @@ export class AuthRegisterPageComponent {
   isPosting = signal<boolean>(false);
 
   registerForm: FormGroup = this._formBuilder.group({
-    name: ['',[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    surname: ['',[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    email: ['',[Validators.required,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),],],
+    name: [
+      '',
+      [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+    ],
+    surname: [
+      '',
+      [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+    ],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+      ],
+    ],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    
   });
 
   onSubmit(): void {
@@ -55,16 +77,15 @@ export class AuthRegisterPageComponent {
             description: 'Bienvenido!',
           });
           this._router.navigateByUrl('/');
-          return
-        } 
-          toast.error('Registro Fallido', {
-            duration: 2000,
-            description: 'Intentelo Nuevamente',
-          });
-        
+          return;
+        }
+        toast.error('Registro Fallido', {
+          duration: 2000,
+          description: 'Intentelo Nuevamente',
+        });
+
         this.isPosting.set(false);
       });
-      
     } catch (error) {
       console.error(error);
     }

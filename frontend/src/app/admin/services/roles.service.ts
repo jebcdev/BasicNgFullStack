@@ -4,7 +4,7 @@ import { iRole } from '@auth/interfaces';
 import { environment } from '@env/environment';
 import { catchError, Observable, tap } from 'rxjs';
 
-const API_URL: string = ` ${environment.apiUrl}/roles`;
+const API_URL = ` ${environment.apiUrl}/roles`;
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class RolesService {
   }
 
   getById(id: number): Observable<iRole> {
-    return this._http.get<iRole>(`${API_URL}/${id}`)
+    return this._http.get<iRole>(`${API_URL}/${id}`);
   }
 
   create(role: iRole): Observable<iRole> {
@@ -29,7 +29,7 @@ export class RolesService {
       catchError((error) => {
         console.error('Error creating role:', error);
         throw error; // Rethrow the error to be handled by the caller
-      })
+      }),
     );
   }
 
@@ -41,11 +41,11 @@ export class RolesService {
       catchError((error) => {
         console.error('Error updating role:', error);
         throw error; // Rethrow the error to be handled by the caller
-      })
+      }),
     );
   }
 
   deleteById(id: number): Observable<iRole[]> {
-    return this._http.delete<iRole[]>(`${API_URL}/${id}`)
+    return this._http.delete<iRole[]>(`${API_URL}/${id}`);
   }
 }

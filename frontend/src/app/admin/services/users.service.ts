@@ -4,7 +4,7 @@ import { iUser } from '@auth/interfaces';
 import { environment } from '@env/environment';
 import { catchError, Observable, tap } from 'rxjs';
 
-const API_URL: string = ` ${environment.apiUrl}/users`;
+const API_URL = ` ${environment.apiUrl}/users`;
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class UsersService {
       catchError((error) => {
         console.error('Error creating role:', error);
         throw error; // Rethrow the error to be handled by the caller
-      })
+      }),
     );
   }
 
@@ -41,7 +41,7 @@ export class UsersService {
       catchError((error) => {
         console.error('Error updating role:', error);
         throw error; // Rethrow the error to be handled by the caller
-      })
+      }),
     );
   }
 

@@ -5,7 +5,8 @@ const customFilterFn: FilterFn<iUser> = (
   row: Row<iUser>,
   columnId,
   filterValue: string,
-  addMeta: (meta: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  addMeta: (meta: any) => void,
 ): boolean => {
   try {
     filterValue = filterValue.toLowerCase();
@@ -57,7 +58,7 @@ export const usersTableColumns: ColumnDef<iUser>[] = [
     filterFn: customFilterFn,
   },
   {
-    id:'actions',
+    id: 'actions',
     header: 'Acciones',
     enableSorting: false,
     enableHiding: false,

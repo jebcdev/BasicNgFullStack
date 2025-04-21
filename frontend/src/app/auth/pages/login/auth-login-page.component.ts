@@ -12,10 +12,11 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { iLoginRequest, iUser } from '@auth/interfaces';
+import { iLoginRequest } from '@auth/interfaces';
 import { AuthService } from '@auth/services/auth.service';
 //
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'auth-login-page',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './auth-login-page.component.html',
@@ -31,9 +32,14 @@ export class AuthLoginPageComponent {
   isPosting = signal<boolean>(false);
 
   loginForm: FormGroup = this._formBuilder.group({
-
-    email: ['',[Validators.required,   Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-    password: ['',[Validators.required, Validators.minLength(8)]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+      ],
+    ],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   onSubmit(): void {
@@ -61,16 +67,15 @@ export class AuthLoginPageComponent {
             description: 'Bienvenido de Nuevo',
           });
           this._router.navigateByUrl('/');
-          return
-        } 
-          toast.error('Inicio de Sesión Fallido', {
-            duration: 2000,
-            description: 'Credenciales Incorrectas',
-          });
-        
+          return;
+        }
+        toast.error('Inicio de Sesión Fallido', {
+          duration: 2000,
+          description: 'Credenciales Incorrectas',
+        });
+
         this.isPosting.set(false);
       });
-      
     } catch (error) {
       console.error(error);
     }

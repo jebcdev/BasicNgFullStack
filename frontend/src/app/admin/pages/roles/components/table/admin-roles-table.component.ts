@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   input,
   signal,
@@ -28,6 +27,7 @@ import { RolesService } from '@admin/services/roles.service';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-roles-table',
   imports: [CommonModule, FlexRenderDirective],
   templateUrl: './admin-roles-table.component.html',
@@ -37,7 +37,7 @@ import { Router } from '@angular/router';
 export class AdminRolesTableComponent {
   //
   private _rolesService: RolesService = inject(RolesService);
-  private _router:Router = inject(Router);
+  private _router: Router = inject(Router);
   roles = input.required<iRole[]>();
 
   /*  */
@@ -66,11 +66,13 @@ export class AdminRolesTableComponent {
       columnFilters: this._columnFilter(),
     },
     onPaginationChange: (valueOrFunction) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       typeof valueOrFunction === 'function'
         ? this._pagination.update(valueOrFunction)
         : this._pagination.set(valueOrFunction);
     },
     onSortingChange: (valueOrFunction) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       typeof valueOrFunction === 'function'
         ? this._sortingState.update(valueOrFunction)
         : this._sortingState.set(valueOrFunction);
@@ -83,6 +85,7 @@ export class AdminRolesTableComponent {
       this._columnVisibility.set(visibilityStatechange);
     },
     onColumnFiltersChange: (filterChange) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       filterChange instanceof Function
         ? this._columnFilter.update(filterChange)
         : this._columnFilter.set(filterChange);
@@ -149,25 +152,24 @@ export class AdminRolesTableComponent {
         return;
       }
       if (confirm('¿Está Seguro de Eliminar Éste Registro?')) {
-        this._rolesService.deleteById(row.original.id).pipe(
-          tap(()=>this._rolesService.getAll().subscribe())
-        ).subscribe({
-          next: (res) => {
-            toast.success('Registro Eliminado', {
-              description: 'El Registro ha sido eliminado correctamente',
-            });
-            location.reload();
-          },
-          error: (err) => {
-            console.error(err);
-            toast.error('Error al Eliminar el Registro', {
-              description:
-                'Error al Eliminar el Registro, por favor intente de nuevo',
-            });
-          },
-        })
-        
-        ;
+        this._rolesService
+          .deleteById(row.original.id)
+          .pipe(tap(() => this._rolesService.getAll().subscribe()))
+          .subscribe({
+            next: () => {
+              toast.success('Registro Eliminado', {
+                description: 'El Registro ha sido eliminado correctamente',
+              });
+              location.reload();
+            },
+            error: (err) => {
+              console.error(err);
+              toast.error('Error al Eliminar el Registro', {
+                description:
+                  'Error al Eliminar el Registro, por favor intente de nuevo',
+              });
+            },
+          });
       }
     } catch (error) {
       console.error(error);

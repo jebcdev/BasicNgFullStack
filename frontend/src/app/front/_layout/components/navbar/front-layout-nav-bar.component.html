@@ -32,23 +32,23 @@
       </ul> -->
   </div>
   <div class="navbar-end gap-2">
-    @if (authStatus()==='authenticated') {
-    <a class="btn btn-sm btn-outline btn-primary"
-    routerLink="/private"
-    >
-      {{ userName() }}
-    </a>
-    <button class="btn btn-sm btn-outline btn-accent" (click)="logout()">
-      Salir
-    </button>
-    }<!--  -->
-    @else if(authStatus()==='not-authenticated'){
-    <a class="btn btn-sm btn-outline btn-accent" routerLink="/auth/login">Iniciar</a>
-    }<!--  -->
-    @else {
-      <button class="btn btn-sm btn-outline btn-primary">
-        . . . 
+    @if (authStatus() === "authenticated") {
+      <a class="btn btn-sm btn-outline btn-primary" routerLink="/private">
+        {{ userName() }}
+      </a>
+      <button class="btn btn-sm btn-outline btn-accent" (click)="logout()">
+        Salir
       </button>
+    }
+    <!--  -->
+    @else if (authStatus() === "not-authenticated") {
+      <a class="btn btn-sm btn-outline btn-accent" routerLink="/auth/login"
+        >Iniciar</a
+      >
+    }
+    <!--  -->
+    @else {
+      <button class="btn btn-sm btn-outline btn-primary">. . .</button>
     }
   </div>
 </div>

@@ -3,10 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { IsEmptyComponent, IsErrorComponent, IsLoadingComponent } from '@shared/components';
-import { AdminUsersTableComponent } from "./components/table/admin-users-table.component";
+import {
+  IsEmptyComponent,
+  IsErrorComponent,
+  IsLoadingComponent,
+} from '@shared/components';
+import { AdminUsersTableComponent } from './components/table/admin-users-table.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-users-page',
   imports: [
     CommonModule,
@@ -14,11 +19,11 @@ import { AdminUsersTableComponent } from "./components/table/admin-users-table.c
     IsEmptyComponent,
     IsErrorComponent,
     IsLoadingComponent,
-    AdminUsersTableComponent
-],
+    AdminUsersTableComponent,
+  ],
   templateUrl: './admin-users-page.component.html',
   styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersPageComponent {
   private _usersService: UsersService = inject(UsersService);

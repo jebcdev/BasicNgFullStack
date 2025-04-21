@@ -18,8 +18,8 @@ import { toast } from 'ngx-sonner';
 import { effect } from '@angular/core';
 import { iUser } from '@auth/interfaces';
 
-
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'private-profile-page',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './private-profile-page.component.html',
@@ -27,7 +27,6 @@ import { iUser } from '@auth/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrivateProfilePageComponent {
-
   constructor() {
     // Efecto para inicializar el formulario cuando currentUser cambie
     effect(() => {
@@ -74,7 +73,7 @@ export class PrivateProfilePageComponent {
     try {
       if (this.profileForm.invalid) {
         /* errores */
-/*         const controls = this.profileForm.controls;
+        /*         const controls = this.profileForm.controls;
         let errorMsg = 'Por Favor, Completa Todos los Campos Requeridos';
       
         if (controls['name'].errors) {
@@ -97,7 +96,7 @@ export class PrivateProfilePageComponent {
         /* errores */
         toast.error('Actualización Fallida', {
           duration: 2000,
-          description:'Por Favor, Completa Todos los Campos Requeridos',
+          description: 'Por Favor, Completa Todos los Campos Requeridos',
           // delete: true,
         });
         return;
@@ -108,12 +107,11 @@ export class PrivateProfilePageComponent {
         surname: this.profileForm.controls['surname'].value,
         email: this.profileForm.controls['email'].value,
         password: this.profileForm.controls['password'].value,
-        role_id: this.currentUser()?.role_id!,
-        created_at: this.currentUser()?.created_at!,
+        role_id: this.currentUser()?.role_id,
+        created_at: this.currentUser()?.created_at,
       };
-        
-        console.log(data);
-        
+
+      console.log(data);
 
       this.isPosting.set(true);
 
@@ -124,13 +122,13 @@ export class PrivateProfilePageComponent {
             description: 'Bienvenido Nuevamente',
           });
           this._router.navigateByUrl('/');
-          return
-        } 
-          toast.error('Actualización Fallida', {
-            duration: 2000,
-            description: 'Intentelo Nuevamente',
-          });
-        
+          return;
+        }
+        toast.error('Actualización Fallida', {
+          duration: 2000,
+          description: 'Intentelo Nuevamente',
+        });
+
         this.isPosting.set(false);
       });
     } catch (error) {

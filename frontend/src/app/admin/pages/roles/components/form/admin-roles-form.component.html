@@ -12,7 +12,7 @@
       <form class="mt-4 space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
         <!-- Nombre -->
         <div class="form-control">
-          <label class="label">
+          <label class="label" for="name">
             <span class="label-text">Nombre</span>
           </label>
           <input
@@ -25,7 +25,7 @@
 
         <!-- Descripcion -->
         <div class="form-control">
-          <label class="label">
+          <label class="label" for="description">
             <span class="label-text">Descripción</span>
           </label>
           <input
@@ -40,7 +40,7 @@
         <div class="flex justify-around gap-1 mt-4">
           <div>
             <button class="btn btn-primary w-full" type="submit">
-              {{ roleId() == null ? "Crear" : "Actualizar" }}
+              {{ roleId() === null ? "Crear" : "Actualizar" }}
             </button>
           </div>
           <div>

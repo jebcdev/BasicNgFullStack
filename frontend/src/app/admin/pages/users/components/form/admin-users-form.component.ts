@@ -1,4 +1,3 @@
-
 import { RolesService } from '@admin/services/roles.service';
 import { UsersService } from '@admin/services/users.service';
 import { CommonModule } from '@angular/common';
@@ -25,16 +24,17 @@ import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-users-form',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './admin-users-form.component.html',
   styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersFormComponent {
   constructor() {
     // Reactivamente aplicar patchValue cuando llegan los datos
-/*     effect(() => {
+    /*     effect(() => {
       if (!this.isCreateMode() && this.userData.hasValue()) {
         this.form.patchValue({
           name: this.userData.value()?.name!,
@@ -46,11 +46,11 @@ export class AdminUsersFormComponent {
 
       }
     }); */
- 
+
     effect(() => {
       const user = this.userData.value();
       const roles = this.rolesResource.value();
-    
+
       if (!this.isCreateMode() && user && roles) {
         this.form.patchValue({
           name: user.name,
@@ -60,12 +60,9 @@ export class AdminUsersFormComponent {
           role_id: user.role?.id, // esto ahora sí se aplica bien al <select>
         });
       }
-      
-
     });
- 
   }
-public isSelected =signal<boolean>(false);
+  public isSelected = signal<boolean>(false);
   private _usersService: UsersService = inject(UsersService);
   private _rolesService: RolesService = inject(RolesService);
 
@@ -78,7 +75,9 @@ public isSelected =signal<boolean>(false);
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
   /** Computed para extraer el ID si es edición */
   userId = computed(() =>
-    this.isCreateMode() ? null : Number(this._route.snapshot.paramMap.get('id'))
+    this.isCreateMode()
+      ? null
+      : Number(this._route.snapshot.paramMap.get('id')),
   );
 
   userData = rxResource({
@@ -95,12 +94,30 @@ public isSelected =signal<boolean>(false);
   });
 
   public form: FormGroup = this._formBuilder.group({
-    name: this._formBuilder.control('', [Validators.required,Validators.minLength(4)]),
-    surname: this._formBuilder.control('', [Validators.required,Validators.minLength(4)]),
-    email: this._formBuilder.control('', [Validators.required,Validators.email]),
-    password: this._formBuilder.control('', [Validators.required,Validators.minLength(8)]),
-    confirmation: this._formBuilder.control('', [Validators.required,Validators.minLength(8)]),
-    role_id: this._formBuilder.control(null, [Validators.required,Validators.min(1)]),
+    name: this._formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(4),
+    ]),
+    surname: this._formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(4),
+    ]),
+    email: this._formBuilder.control('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: this._formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    confirmation: this._formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    role_id: this._formBuilder.control(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
   });
 
   onCleanForm() {
@@ -132,13 +149,11 @@ public isSelected =signal<boolean>(false);
         email: this.form.value.email,
         role_id: Number(this.form.value.role_id),
         password: this.form.value.password,
-        
       };
 
-      
       if (this.isCreateMode()) {
         this._usersService.create(data).subscribe({
-          next: (res) => {
+          next: () => {
             toast.success('Registro Creado', {
               description: `El registro: ${data.name}, se creó correctamente `,
               duration: 3000,
@@ -156,7 +171,7 @@ public isSelected =signal<boolean>(false);
         });
       } else {
         this._usersService.updateById(this.userId()!, data).subscribe({
-          next: (res) => {
+          next: () => {
             toast.success('Registro Actualizado', {
               description: `El registro: ${data.name}, se actualizó correctamente `,
               duration: 3000,
@@ -183,6 +198,5 @@ public isSelected =signal<boolean>(false);
     }
   }
 }
-
 
 export default AdminUsersFormComponent;

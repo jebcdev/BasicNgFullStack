@@ -1,27 +1,45 @@
 import { UsersService } from '@admin/services/users.service';
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { iUser } from '@auth/interfaces';
-import { Column, ColumnFiltersState, createAngularTable, FlexRenderDirective, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, Row, SortingState, VisibilityState } from '@tanstack/angular-table';
+import {
+  Column,
+  ColumnFiltersState,
+  createAngularTable,
+  FlexRenderDirective,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  PaginationState,
+  Row,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/angular-table';
 import usersTableColumns from './users-table-columns.definition';
 import { toast } from 'ngx-sonner';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-users-table',
   imports: [CommonModule, FlexRenderDirective],
   templateUrl: './admin-users-table.component.html',
   styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersTableComponent {
-  
   //
   private _usersService: UsersService = inject(UsersService);
-  private _router:Router = inject(Router);
+  private _router: Router = inject(Router);
   users = input.required<iUser[]>();
-  
 
   /*  */
 
@@ -49,11 +67,13 @@ export class AdminUsersTableComponent {
       columnFilters: this._columnFilter(),
     },
     onPaginationChange: (valueOrFunction) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       typeof valueOrFunction === 'function'
         ? this._pagination.update(valueOrFunction)
         : this._pagination.set(valueOrFunction);
     },
     onSortingChange: (valueOrFunction) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       typeof valueOrFunction === 'function'
         ? this._sortingState.update(valueOrFunction)
         : this._sortingState.set(valueOrFunction);
@@ -66,6 +86,7 @@ export class AdminUsersTableComponent {
       this._columnVisibility.set(visibilityStatechange);
     },
     onColumnFiltersChange: (filterChange) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       filterChange instanceof Function
         ? this._columnFilter.update(filterChange)
         : this._columnFilter.set(filterChange);
@@ -110,7 +131,8 @@ export class AdminUsersTableComponent {
     try {
       if (this._usersService.forbidenUsers().includes(row.original.id!)) {
         toast.error('Éste Usuario, No Puede ser Editado', {
-          description: 'Este usuario es un usuario de sistema y no puede ser editado',
+          description:
+            'Este usuario es un usuario de sistema y no puede ser editado',
         });
         return;
       }
@@ -127,30 +149,30 @@ export class AdminUsersTableComponent {
     try {
       if (this._usersService.forbidenUsers().includes(row.original.id!)) {
         toast.error('Éste Usuario, No Puede ser Eliminado', {
-          description: 'Este usuario es un usuario de sistema y no puede ser eliminado',
+          description:
+            'Este usuario es un usuario de sistema y no puede ser eliminado',
         });
         return;
       }
       if (confirm('¿Está Seguro de Eliminar Éste Registro?')) {
-        this._usersService.deleteById(row.original.id!).pipe(
-          tap(()=>this._usersService.getAll().subscribe())
-        ).subscribe({
-          next: (res) => {
-            toast.success('Registro Eliminado', {
-              description: 'El Registro ha sido eliminado correctamente',
-            });
-            location.reload();
-          },
-          error: (err) => {
-            console.error(err);
-            toast.error('Error al Eliminar el Registro', {
-              description:
-                'Error al Eliminar el Registro, por favor intente de nuevo',
-            });
-          },
-        })
-        
-        ;
+        this._usersService
+          .deleteById(row.original.id!)
+          .pipe(tap(() => this._usersService.getAll().subscribe()))
+          .subscribe({
+            next: () => {
+              toast.success('Registro Eliminado', {
+                description: 'El Registro ha sido eliminado correctamente',
+              });
+              location.reload();
+            },
+            error: (err) => {
+              console.error(err);
+              toast.error('Error al Eliminar el Registro', {
+                description:
+                  'Error al Eliminar el Registro, por favor intente de nuevo',
+              });
+            },
+          });
       }
     } catch (error) {
       console.error(error);

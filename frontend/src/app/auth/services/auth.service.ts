@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { iLoginRequest, iRegisterRequest, iUser } from '@auth/interfaces';
 import { environment } from '@env/environment';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 //
 const AUTH_API_URL = `${environment.apiUrl}/auth`;
@@ -45,8 +45,8 @@ export class AuthService {
 
       .pipe(
         map((res) => this.handleAuthSuccess(res)),
-        
-        catchError((error: any) =>this.handleAuthError(error))
+
+        catchError((error: unknown) => this.handleAuthError(error)),
       );
   }
 
@@ -56,8 +56,8 @@ export class AuthService {
 
       .pipe(
         map((res) => this.handleAuthSuccess(res)),
-        
-        catchError((error: any) =>this.handleAuthError(error))
+
+        catchError((error: unknown) => this.handleAuthError(error)),
       );
   }
 
@@ -67,19 +67,18 @@ export class AuthService {
 
       .pipe(
         map((res) => this.handleAuthSuccess(res)),
-        
-        catchError((error: any) =>this.handleAuthError(error))
+
+        catchError((error: unknown) => this.handleAuthError(error)),
       );
   }
 
-
-
   checkAuthStatus(): Observable<boolean> {
     const token: string | null = localStorage.getItem('token');
-    
+
     if (!token) {
       this._authStatus.set('not-authenticated');
-      return of(false);}
+      return of(false);
+    }
     // check-token
     return this._http
       .post<iUser>(
@@ -87,11 +86,11 @@ export class AuthService {
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       )
       .pipe(
         map((res) => this.handleAuthSuccess(res)),
-        catchError((error: any) =>this.handleAuthError(error))
+        catchError((error: unknown) => this.handleAuthError(error)),
       );
   }
 
@@ -104,15 +103,18 @@ export class AuthService {
 
   private handleAuthSuccess(res: iUser) {
     this._user.set(res);
-    this._token.set(res?.token!);
+    // this._token.set(res?.token!);
+    this._token.set(res.token ?? null);
     this._authStatus.set('authenticated');
 
-    localStorage.setItem('token', res?.token!);
+    // localStorage.setItem('token', res?.token!);
+    localStorage.setItem('token', res.token ?? '');
 
     return true;
   }
 
-  private handleAuthError(error:any) {
+  private handleAuthError(error: unknown) {
+    console.error('AuthService Error:', error);
     this.logout();
     return of(false);
   }

@@ -5,7 +5,8 @@ const customFilterFn: FilterFn<iRole> = (
   row: Row<iRole>,
   columnId,
   filterValue: string,
-  addMeta: (meta: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  addMeta: (meta: any) => void,
 ): boolean => {
   try {
     filterValue = filterValue.toLowerCase();
@@ -50,7 +51,7 @@ export const rolesTableColumns: ColumnDef<iRole>[] = [
     filterFn: customFilterFn,
   },
   {
-    id:'actions',
+    id: 'actions',
     header: 'Acciones',
     enableSorting: false,
     enableHiding: false,

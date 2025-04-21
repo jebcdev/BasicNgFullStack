@@ -10,6 +10,7 @@ import {
 } from '@shared/components';
 import { AdminRolesTableComponent } from './components';
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-roles-page',
   imports: [
     CommonModule,

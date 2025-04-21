@@ -25,17 +25,19 @@ import { environment } from '@env/environment';
 
 export function authInterceptor(
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ) {
   const authService = inject(AuthService);
   const token = authService.token();
-  
+
   // Skip token for authentication endpoints
-  if (req.url.includes(`${environment.apiUrl}/auth/login`) || 
-      req.url.includes(`${environment.apiUrl}/auth/check-token`)) {
+  if (
+    req.url.includes(`${environment.apiUrl}/auth/login`) ||
+    req.url.includes(`${environment.apiUrl}/auth/check-token`)
+  ) {
     return next(req);
   }
-  
+
   if (!token) {
     // console.log('AuthInterceptor: No token available');
     return next(req);
@@ -44,7 +46,7 @@ export function authInterceptor(
   const newReq = req.clone({
     headers: req.headers.set('Authorization', `Bearer ${token}`),
   });
-  
+
   // console.log('AuthInterceptor: Adding token to request');
   return next(newReq);
 }

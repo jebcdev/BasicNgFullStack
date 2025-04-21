@@ -11,7 +11,7 @@
         <div class="flex justify-between w-full gap-2">
           <!-- Nombre -->
           <div class="block w-full">
-            <label class="label">
+            <label class="label" for="name">
               <span class="label-text">Nombre(s)</span>
             </label>
             <input
@@ -23,7 +23,7 @@
           </div>
           <!-- Apellido -->
           <div class="block w-full">
-            <label class="label">
+            <label class="label" for="surname">
               <span class="label-text">Apellido(s)</span>
             </label>
             <input
@@ -37,7 +37,7 @@
 
         <!-- Email -->
         <div class="form-control">
-          <label class="label">
+          <label class="label" for="email">
             <span class="label-text">Email</span>
           </label>
           <input
@@ -51,7 +51,7 @@
         <div class="flex justify-between w-full gap-2">
           <!-- contraseña -->
           <div class="block w-full">
-            <label class="label">
+            <label class="label" for="password">
               <span class="label-text">Contraseña</span>
             </label>
             <input
@@ -62,7 +62,7 @@
           </div>
           <!-- confirmation -->
           <div class="block w-full">
-            <label class="label">
+            <label class="label" for="confirmation">
               <span class="label-text">Confirmación</span>
             </label>
             <input
@@ -77,10 +77,10 @@
           <label for="">Seleccione un Rol</label>
           <select class="select w-full" formControlName="role_id">
             @for (role of rolesResource.value(); track $index) {
-            <!-- [selected]="userData.value()?.role?.id! == role.id" -->
-            <option [value]="role.id">
-              {{ role.name }}
-            </option>
+              <!-- [selected]="userData.value()?.role?.id! == role.id" -->
+              <option [value]="role.id">
+                {{ role.name }}
+              </option>
             }
           </select>
         </div>
@@ -89,7 +89,7 @@
         <div class="flex justify-around gap-1 mt-4">
           <div>
             <button class="btn btn-primary w-full" type="submit">
-              {{ userId() == null ? "Crear" : "Actualizar" }}
+              {{ userId() === null ? "Crear" : "Actualizar" }}
             </button>
           </div>
           <div>

@@ -22,6 +22,7 @@ import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-roles-form',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './admin-roles-form.component.html',
@@ -34,8 +35,8 @@ export class AdminRolesFormComponent {
     effect(() => {
       if (!this.isCreateMode() && this.roleData.hasValue()) {
         this.form.patchValue({
-          name: this.roleData.value()?.name!,
-          description: this.roleData.value()?.description!,
+          name: this.roleData.value()?.name,
+          description: this.roleData.value()?.description,
         });
       }
     });
@@ -52,7 +53,9 @@ export class AdminRolesFormComponent {
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
   /** Computed para extraer el ID si es edición */
   roleId = computed(() =>
-    this.isCreateMode() ? null : Number(this._route.snapshot.paramMap.get('id'))
+    this.isCreateMode()
+      ? null
+      : Number(this._route.snapshot.paramMap.get('id')),
   );
 
   roleData = rxResource({
@@ -97,7 +100,7 @@ export class AdminRolesFormComponent {
 
       if (this.isCreateMode()) {
         this._rolesService.create(data).subscribe({
-          next: (res) => {
+          next: () => {
             toast.success('Registro Creado', {
               description: `El registro: ${data.name}, se creó correctamente `,
               duration: 3000,
@@ -115,7 +118,7 @@ export class AdminRolesFormComponent {
         });
       } else {
         this._rolesService.updateById(this.roleId()!, data).subscribe({
-          next: (res) => {
+          next: () => {
             toast.success('Registro Actualizado', {
               description: `El registro: ${data.name}, se actualizó correctamente `,
               duration: 3000,

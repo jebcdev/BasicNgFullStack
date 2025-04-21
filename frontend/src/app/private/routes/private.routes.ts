@@ -10,18 +10,19 @@ export const privateRoutes: Routes = [
       {
         path: 'profile',
         title: environment.appName,
-        loadComponent: () => import('@private/pages/profile/private-profile-page.component'),
+        loadComponent: () =>
+          import('@private/pages/profile/private-profile-page.component'),
         children: [],
       },
     ],
   },
 
   {
-    path:'**',
-    title:'Redirecting...',
-    redirectTo:'',
-    pathMatch:'full',
-  }
+    path: '**',
+    title: 'Redirecting...',
+    redirectTo: '',
+    pathMatch: 'full',
+  },
 ];
 
 export default privateRoutes;
